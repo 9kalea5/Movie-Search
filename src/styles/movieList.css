@@ -15,13 +15,13 @@
   .pagination button {
     padding: 8px 12px;
     border: none;
-    background-color: #28a745;
+    background-color:rgb(40, 57, 44);
     color: white;
     cursor: pointer;
     border-radius: 5px;
   }
   
   .pagination button:hover {
-    background-color: #218838;
+    background-color:rgb(5, 11, 6);
   }
   

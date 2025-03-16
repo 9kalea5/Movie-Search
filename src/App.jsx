@@ -53,8 +53,9 @@ function App() {
   };
 
   return (
+    <>
     <div style={{ textAlign: "center", padding: "20px" }}>
-      <h1>Movie Search</h1>
+      <h1 style={{ color: 'black' }}>Movie Search</h1>
       <SearchBar
         query={query}
         setQuery={setQuery}
@@ -76,6 +77,7 @@ function App() {
         />
       )}
     </div>
+    </>
   );
 }
 
