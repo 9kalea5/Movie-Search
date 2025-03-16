@@ -1,9 +1,13 @@
-import React from 'react'
+import React from "react";
+import "./../styles/MovieCard.css";
 
-export default function MovieCard() {
+const MovieCard = ({ movie, fetchMovieDetails }) => {
   return (
-    <div>
-      
+    <div className="movie-card" onClick={() => fetchMovieDetails(movie.imdbID)}>
+      <img src={movie.Poster} alt={movie.Title} />
+      <h3>{movie.Title} ({movie.Year})</h3>
     </div>
-  )
-}
+  );
+};
+
+export default MovieCard;
