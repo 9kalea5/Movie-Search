@@ -11,12 +11,17 @@ const MovieList = ({ movies, fetchMovieDetails, page, totalPages, searchMovies }
         ))}
       </div>
 
-      {/* Pagination */}
-      <div className="pagination">
-        {page > 1 && <button onClick={() => searchMovies(page - 1)}>Previous</button>}
-        <span> Page {page} of {totalPages} </span>
-        {page < totalPages && <button onClick={() => searchMovies(page + 1)}>Next</button>}
-      </div>
+      {movies.length > 0 && (
+        <div className="pagination">
+          {page > 1 && (
+            <button onClick={() => searchMovies(page - 1)}>Previous</button>
+          )}
+          <span> Page {page} of {totalPages} </span>
+          {page < totalPages && (
+            <button onClick={() => searchMovies(page + 1)}>Next</button>
+          )}
+        </div>
+      )}
     </div>
   );
 };

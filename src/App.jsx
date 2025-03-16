@@ -1,7 +1,6 @@
 import { useState } from "react"
 import SearchBar from "./components/SearchBar"
 import MovieList from "./components/MovieList";
-import MovieCard from "./components/MovieCard";
 import MovieDetails from "./components/MovieDetails";
 
 function App() {
@@ -10,8 +9,31 @@ function App() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [error, setError] = useState("");
+  const [query, setQuery] = useState("");
 
   const API_KEY = import.meta.env.VITE_API_KEY;
+
+  const searchMovies = async (pageNumber = 1) => {
+    if (!query) return;
+    setError("");
+    setPage(pageNumber);
+
+    try {
+      const response = await fetch(
+        `https://www.omdbapi.com/?apikey=${API_KEY}&s=${query}&page=${pageNumber}`
+      );
+      const data = await response.json();
+
+      if (data.Response === "True") {
+        setMovies(data.Search);
+        setTotalPages(Math.ceil(data.totalResults / 10));
+      } else {
+        setError(data.Error);
+      }
+    } catch (err) {
+      setError("Failed to fetch movies.");
+    }
+  };
 
   const fetchMovieDetails = async (imdbID) => {
     try {
@@ -31,13 +53,13 @@ function App() {
   };
 
   return (
-    <>
-      <div style={{ textAlign: "center", padding: "20px" }}>
+    <div style={{ textAlign: "center", padding: "20px" }}>
       <h1>Movie Search</h1>
       <SearchBar
-        setMovies={setMovies}
+        query={query}
+        setQuery={setQuery}
+        searchMovies={searchMovies}
         setError={setError}
-        API_KEY={API_KEY}
       />
 
       {error && <p style={{ color: "red" }}>{error}</p>}
@@ -47,13 +69,14 @@ function App() {
       ) : (
         <MovieList 
           movies={movies} 
-          fetchMovieDetails={fetchMovieDetails} 
-          
+          fetchMovieDetails={fetchMovieDetails}
+          page={page}
+          totalPages={totalPages}
+          searchMovies={searchMovies}
         />
       )}
     </div>
-    </>
-  )
+  );
 }
 
-export default App
+export default App;
